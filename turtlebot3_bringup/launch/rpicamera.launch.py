@@ -17,15 +17,26 @@ def generate_launch_description():
             'camera.yaml'))
 
     return LaunchDescription([
-
         Node(
-            package='usb_cam',
-            executable='usb_cam_node_exe',
+            package='camera_ros',
+            executable='camera_node',
             parameters=[camera_params],
-            arguments=['--ros-args', '--remap', '__ns:=/camera'],
+            # Remap image_raw so that it can be created from compressed
+            # images on the workstation side.
             remappings=[
                 ('/camera/image_raw', '/camera/image_raw/uncompressed'),
             ],
             output='screen'
             ),
+
+        Node(
+            package='topic_tools',
+            executable='throttle',
+            parameters = [{'input_topic': '/camera/image_raw/compressed',
+                          'msgs_per_sec': 5.0,
+                          'throttle_type': 'messages'}],
+            arguments=['messages'],
+            output='screen'
+            ),
+
     ])
