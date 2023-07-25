@@ -12,7 +12,7 @@ def generate_launch_description():
             executable='republish',
             arguments=['compressed', 'raw'],
             remappings=[
-                ('in/compressed', '/camera/image_raw/compressed'),
+                ('in/compressed', '/camera/image_raw/compressed_throttle'),
                 ('out', '/camera/image_raw'),
             ],
             output='screen'
