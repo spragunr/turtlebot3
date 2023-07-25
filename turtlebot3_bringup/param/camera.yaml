@@ -2,4 +2,4 @@
     ros__parameters:
       format: "YUYV"
       width: 640
-      height: 480
+      height: 360

@@ -25,7 +25,7 @@ def generate_launch_description():
 
     calibration_target_path = os.path.join(os.path.expanduser('~'),
                                            '.ros', 'camera_info',
-                                           'imx219__base_soc_i2c0mux_i2c_1_imx219_10_640x480.yaml')
+                                           'imx219__base_soc_i2c0mux_i2c_1_imx219_10_640x360.yaml')
     if not os.path.exists(calibration_target_path):
         os.makedirs(os.path.dirname(calibration_target_path), exist_ok=True)
         shutil.copy(calibration_file_path, calibration_target_path)
