@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 import os
+import shutil
 
 from ament_index_python.packages import get_package_share_directory
 from launch import LaunchDescription
@@ -15,6 +16,19 @@ def generate_launch_description():
             get_package_share_directory('turtlebot3_bringup'),
             'param',
             'camera.yaml'))
+
+    # camera_ros expects the calibration file to be in the ~/.ros folder
+    # with a particular name. It's hacky, but we just copy it there.
+    calibration_file_path = os.path.join(get_package_share_directory('turtlebot3_bringup'),
+                                         'camera_info',
+                                         'turtlebot3_rpicamera.yaml')
+
+    calibration_target_path = os.path.join(os.path.expanduser('~'),
+                                           '.ros', 'camera_info',
+                                           'imx219__base_soc_i2c0mux_i2c_1_imx219_10_640x480.yaml')
+    if not os.path.exists(calibration_target_path):
+        os.makedirs(os.path.dirname(calibration_target_path), exist_ok=True)
+        shutil.copy(calibration_file_path, calibration_target_path)
 
     return LaunchDescription([
         Node(
